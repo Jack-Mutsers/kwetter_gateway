@@ -1,0 +1,11 @@
+server:
+  port: 4000
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: http://localhost:9091/auth/validate
+          client-id: firebase-auth
+#          client-secret: <code class="language-css"><CLIENT SECRET>
