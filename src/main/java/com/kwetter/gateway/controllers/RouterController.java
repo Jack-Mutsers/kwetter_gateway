@@ -24,6 +24,8 @@ public class RouterController {
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         Config config = new Config();
         return builder.routes()
+
+                // auth service
                 .route(p -> p
                         .path("/user/register")
                         .uri("http://localhost:9091"))
@@ -33,13 +35,50 @@ public class RouterController {
                         .uri("http://localhost:9091"))
                 .route(p -> p
                         .path("/user/changePassword")
-                        .uri("http://localhost:9091"))
-                .route(p -> p
-                        .path("/user/{uid}")
+                        .filters(f -> f.filter(authFilter.apply(config)))
                         .uri("http://localhost:9091"))
                 .route(p -> p
                         .path("/auth/login")
                         .uri("http://localhost:9091"))
+
+                // posting service
+                .route(p -> p
+                        .path("/post/get/*")
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/post/user_posts/*")
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/post/group_posts/*")
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/post/delete/*")
+                        .filters(f -> f.filter(authFilter.apply(config)))
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/post/create")
+                        .filters(f -> f.filter(authFilter.apply(config)))
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/post/update")
+                        .filters(f -> f.filter(authFilter.apply(config)))
+                        .uri("http://localhost:9092"))
+
+                .route(p -> p
+                        .path("/comment/delete/*")
+                        .filters(f -> f.filter(authFilter.apply(config)))
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/comment/create")
+                        .filters(f -> f.filter(authFilter.apply(config)))
+                        .uri("http://localhost:9092"))
+                .route(p -> p
+                        .path("/comment/update")
+                        .filters(f -> f.filter(authFilter.apply(config)))
+                        .uri("http://localhost:9092"))
+
+
+
                 .build();
     }
 
